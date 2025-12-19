@@ -149,3 +149,69 @@ class Node {
     }
 }
 
+function getNeighbors(state){
+    let neighbors = [];
+    let zeroIndex = state.index0f(0);
+    let r = Math.floor(zeroIndex / 3);
+    let c = zeroIndex % 3;
+
+    const direcition = [     //定义了一个对象数组，这种做法叫**“数据驱动控制”**。它的核心思想是：把经常变化的数据（方向坐标）从逻辑（移动代码）中抽离出来。
+        { dr: -1, dc: 0 },//up
+        { dr: 1, dc: 0 },//down
+        { dr: 0, dc: -1 },//left
+        { dr: 0, dc: 1 },//right
+    ];
+
+    directions.forEach(dir => {
+        let newR = r + dir.dr;
+        let newC = c + dir.dc;
+
+        if(newR >= 0 && newR < 3 && newC >= 0 && newC < 3){
+            let newIndex = newR * 3 + newC;
+            let newState = [...state]; //克隆数组(...is spread operator)
+            [newState[zeroIndex], newState[newIndex]] = [newState[newIndex], newState[zeroIndex]]
+            neighbors.push(newState);
+        }
+    })
+    return neighbors;
+}
+
+
+function solveAstar(){
+    let openList = [];
+    let closedList = new Set();//Set（）为集合数据结构。不重复：同一个东西，无论你存多少次，它只会保留一份。快速查找：它专门优化了“查找”速度。判断一个东西在不在 Set 里，比在 Array 里快得多。
+    let h = getManhattanDistance(currentState); 
+    let startNode = new Node(currentState, null, 0, h);
+    openList.push(startNode);
+    
+    while (openList.length > 0){
+        openList.sort((a, b) => a.f - b.f);
+        let currentNode = openList.shift();
+        let currentStateString = currentNode.state.join(',');
+        closedList.add(currentStateString);
+
+        
+        if (currentNode.state.join(',') === FINAL_STATE.join(',')){
+            return reconstructPath(currentNode);
+        }
+        
+        
+        let neighbors = getNeighbors(currentNode.state);
+        neighbors.forEach(nextState => {
+            if (closedList.has(nextState.join(','))){
+                return;
+            }
+            let h = getManhattanDistance(nextState);
+            let newNode = new Node(nextState, currentNode, currentNode.g + 1, h);
+            openList.push(newNode);
+        });
+    }
+}
+
+
+
+
+
+
+
+
