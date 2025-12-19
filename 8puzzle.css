@@ -1,121 +1,201 @@
-/* --- 基础设置 --- */
+/* --- 全局重置与字体 --- */
+:root {
+    --bg-color: #F5F5F7;
+    --text-primary: #1D1D1F;
+    --text-secondary: #86868B;
+    --accent-color: #0071E3; /* Apple Blue */
+    --tile-bg: #FFFFFF;
+    --tile-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+    --nav-bg: rgba(255, 255, 255, 0.72);
+}
+
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f9f9f9;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased; /* 让字体更平滑 */
 }
 
-/* --- 新增：导航栏样式 --- */
+/* --- 顶部导航栏 (毛玻璃效果) --- */
 .navbar {
-    background-color: #333; /*以此颜色为例，深灰色 */
-    color: white;
-    position: fixed; /* 固定在顶部 */
+    background-color: var(--nav-bg);
+    backdrop-filter: saturate(180%) blur(20px); /* 核心：毛玻璃模糊 */
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    position: fixed;
     top: 0;
     width: 100%;
-    z-index: 1000; /* 确保在最上层 */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
 .nav-list {
     display: flex;
-    justify-content: center; /* 居中排列 */
+    justify-content: center;
     list-style: none;
     margin: 0;
-    padding: 1rem 0;
-    gap: 40px; /* 栏目之间的间距 */
+    padding: 0.8rem 0;
+    gap: 40px;
 }
 
 .nav-list li a {
-    color: white;
+    color: var(--text-secondary);
     text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: bold;
-    transition: color 0.3s;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
 
 .nav-list li a:hover {
-    color: #4CAF50; /* 鼠标悬停变为绿色 */
+    color: var(--accent-color);
 }
 
-/* --- 修改：原有游戏容器 --- */
+/* --- 游戏主区域 --- */
 #puzzle-app {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    padding-top: 60px; /* 重要：为顶部导航栏留出空间 */
+    padding-top: 80px;
     box-sizing: border-box;
 }
 
-/* --- 原有样式保持不变 --- */
-#game-board {
-    display: grid; 
-    grid-template-columns: 100px 100px 100px;
-    grid-template-rows: 100px 100px 100px;
-    margin: 20px auto; 
-    border: 3px solid #cecece;
-    background-color: #fff;
+h1 {
+    font-weight: 600;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    letter-spacing: -0.02em; /* 字距微调，更紧凑现代 */
 }
 
+/* --- 游戏棋盘 --- */
+#game-board {
+    display: grid; 
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 12px; /* 格子之间的间隙 */
+    margin: 30px auto; 
+    /* 移除边框，改用内边距和圆角容器 */
+    border: none;
+    padding: 12px;
+    background-color: rgba(255,255,255,0.5);
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* 柔和的大投影 */
+}
+
+/* --- 拼图块 --- */
 .tile {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #e3e3e3; 
-    color: #333;
-    font-size: 2em;
-    font-weight: bold;
-    border: 1px solid #cecece; 
+    background-color: var(--tile-bg); 
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: 500;
+    border: none; /* 移除边框 */
+    border-radius: 16px; /* 方块圆角 */
     cursor: pointer;
-    transition: background-color 0.2s; /* 增加一点点击动画过渡 */
+    box-shadow: var(--tile-shadow);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
 }
 
 .tile:hover {
-    background-color: #d1d1d1;
+    transform: translateY(-2px); /* 悬停轻微上浮 */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
 }
 
+.tile:active {
+    transform: scale(0.96); /* 点击时的按压感 */
+}
+
+/* 空方块 */
 .tile.empty {
-    background-color: #eee; 
+    background-color: transparent; 
+    box-shadow: none;
     cursor: default; 
-    border: 1px solid transparent;
+    pointer-events: none; /* 禁止空方块交互 */
 }
 
-/* 按钮样式美化 (可选) */
-#controls button {
-    padding: 10px 20px;
-    margin: 0 10px;
-    font-size: 1rem;
-    cursor: pointer;
-    background-color: #4CAF50;
-    color: white;
+/* --- 控制面板 --- */
+#controls {
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+#controls p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin: 10px 0;
+}
+
+#controls span {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-family: "SF Mono", "Menlo", monospace; /* 数字使用等宽字体 */
+}
+
+/* --- 按钮组 --- */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+button {
+    padding: 10px 22px;
+    font-size: 0.9rem;
+    font-weight: 500;
     border: none;
-    border-radius: 4px;
-}
-#controls button:hover {
-    background-color: #45a049;
+    border-radius: 980px; /* 胶囊形状 */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #E8E8ED; /* 默认浅灰背景 */
+    color: var(--text-primary);
 }
 
-/* --- 新增：其他页面的区块样式 --- */
+button:hover {
+    background-color: #D2D2D7;
+}
+
+/* 主要操作按钮强调色 */
+#solve-btn {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+#solve-btn:hover {
+    background-color: #0077ED; /* 稍微亮一点 */
+    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3);
+}
+
+/* --- 内容区块 (背景介绍 & 致谢) --- */
 .content-section {
-    min-height: 80vh; /* 设为全屏高度的80%，模拟翻页感 */
-    padding: 80px 20px;
+    min-height: auto; /* 不需要强撑全屏，自然流动 */
+    padding: 100px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-top: 1px solid #ccc;
-    background-color: white;
+    background-color: #fff; /* 纯白背景区分 */
 }
 
 .content-section h2 {
-    color: #333;
-    margin-bottom: 20px;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    letter-spacing: -0.01em;
 }
 
 .text-content {
-    max-width: 800px;
-    line-height: 1.6;
-    color: #555;
-    text-align: center;
+    max-width: 680px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    text-align: left; /* 长文本通常左对齐更好读 */
+}
+
+/* 针对特定文字颜色的覆盖 */
+#min-moves {
+    color: var(--accent-color) !important; /* 强制使用主题蓝 */
 }

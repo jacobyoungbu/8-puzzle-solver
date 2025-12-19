@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>8-Puzzle 最小步数求解</title>
+    <title>8-Puzzle 极简版</title>
     <link rel="stylesheet" href="8puzzle.css">
 </head>
 <body>
-    <!-- 新增：导航栏 -->
+    <!-- 导航栏 -->
     <nav class="navbar">
         <ul class="nav-list">
-            <li><a href="#puzzle-app">8puzzle小游戏</a></li>
-            <li><a href="#background">算法背景</a></li>
+            <li><a href="#puzzle-app">游戏</a></li>
+            <li><a href="#background">算法原理</a></li>
             <li><a href="#credits">致谢</a></li>
         </ul>
     </nav>
 
-    <!-- 游戏主区域 (保留原有ID以便兼容JS) -->
+    <!-- 游戏主区域 -->
     <div id="puzzle-app">
-        <h1>8-Puzzle 最小步数求解</h1>
+        <h1>8-Puzzle</h1>
 
         <div id="game-board">
+            <!-- JS 会在这里生成方块 -->
             <div class="tile" data-number="1">1</div>
             <div class="tile" data-number="2">2</div>
             <div class="tile" data-number="3">3</div>
@@ -33,30 +34,38 @@
         </div>
 
         <div id="controls">
-            <p>当前步数: <span id="move-count">0</span></p>
-            <p>理论最小步数：<span id="min-moves" style = " color:blueviolet; font-weight: bold;"></span></p>
+            <!-- 统计信息 -->
+            <div class="stats">
+                <p>当前步数 <span id="move-count">0</span></p>
+                <p>理论最少 <span id="min-moves">?</span></p>
+            </div>
+
+            <!-- 按钮组 -->
             <div class="button-group">
-                <button id="new-game-btn">新游戏</button>
-                <button id="solve-btn">求解演示</button>
-                <button id="hint-btn">显示理论最小步数</button>
+                <button id="new-game-btn">重新开始</button>
+                <button id="hint-btn">计算最优解</button>
+                <button id="solve-btn">自动演示</button>
             </div>
         </div>
     </div>
-    <!-- 新增：算法背景区块 -->
+
+    <!-- 算法背景区块 -->
     <section id="background" class="content-section">
-        <h2>8-Puzzle 最小步数求解算法背景</h2>
+        <h2>算法之美</h2>
         <div class="text-content">
-            <p>这里将介绍 A* (A-Star) 算法或 BFS (广度优先搜索) 在解决八数码问题中的应用。</p>
-            <p>（你可以在这里补充具体的算法原理、启发式函数 Manhattan Distance 等内容）</p>
+            <p>本程序采用 <strong>A* (A-Star) 搜索算法</strong> 寻找八数码问题的最优解。A* 算法结合了 Dijkstra 算法的广度优先特性与贪婪算法的启发式特性。</p>
+            <br>
+            <p><strong>核心公式：f(n) = g(n) + h(n)</strong></p>
+            <p>其中，g(n) 代表从起点到当前状态的实际代价，而 h(n) 则是当前状态到目标状态的预估代价。我们使用了 <em>曼哈顿距离 (Manhattan Distance)</em> 作为启发函数，确保了搜索的高效性与结果的准确性。</p>
         </div>
     </section>
 
-    <!-- 新增：致谢区块 -->
-    <section id="credits" class="content-section">
+    <!-- 致谢区块 -->
+    <section id="credits" class="content-section" style="background-color: #F5F5F7;">
         <h2>致谢</h2>
-        <div class="text-content">
-            <p>感谢使用本程序。</p>
-            <p>开发人员：[你的名字]</p>
+        <div class="text-content" style="text-align: center;">
+            <p>Design by Apple Style Guide Inspiration.</p>
+            <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.6;">&copy; 2025 [你的名字]. All rights reserved.</p>
         </div>
     </section>
 
