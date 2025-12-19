@@ -1,18 +1,62 @@
+/* --- 基础设置 --- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+}
 
+/* --- 新增：导航栏样式 --- */
+.navbar {
+    background-color: #333; /*以此颜色为例，深灰色 */
+    color: white;
+    position: fixed; /* 固定在顶部 */
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* 确保在最上层 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.nav-list {
+    display: flex;
+    justify-content: center; /* 居中排列 */
+    list-style: none;
+    margin: 0;
+    padding: 1rem 0;
+    gap: 40px; /* 栏目之间的间距 */
+}
+
+.nav-list li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.nav-list li a:hover {
+    color: #4CAF50; /* 鼠标悬停变为绿色 */
+}
+
+/* --- 修改：原有游戏容器 --- */
 #puzzle-app {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+    padding-top: 60px; /* 重要：为顶部导航栏留出空间 */
+    box-sizing: border-box;
 }
 
+/* --- 原有样式保持不变 --- */
 #game-board {
     display: grid; 
     grid-template-columns: 100px 100px 100px;
     grid-template-rows: 100px 100px 100px;
     margin: 20px auto; 
     border: 3px solid #cecece;
+    background-color: #fff;
 }
 
 .tile {
@@ -20,15 +64,58 @@
     justify-content: center;
     align-items: center;
     background-color: #e3e3e3; 
-    color: white;
+    color: #333;
     font-size: 2em;
     font-weight: bold;
     border: 1px solid #cecece; 
     cursor: pointer;
+    transition: background-color 0.2s; /* 增加一点点击动画过渡 */
+}
+
+.tile:hover {
+    background-color: #d1d1d1;
 }
 
 .tile.empty {
     background-color: #eee; 
     cursor: default; 
+    border: 1px solid transparent;
 }
 
+/* 按钮样式美化 (可选) */
+#controls button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+#controls button:hover {
+    background-color: #45a049;
+}
+
+/* --- 新增：其他页面的区块样式 --- */
+.content-section {
+    min-height: 80vh; /* 设为全屏高度的80%，模拟翻页感 */
+    padding: 80px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 1px solid #ccc;
+    background-color: white;
+}
+
+.content-section h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.text-content {
+    max-width: 800px;
+    line-height: 1.6;
+    color: #555;
+    text-align: center;
+}

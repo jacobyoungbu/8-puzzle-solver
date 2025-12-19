@@ -1,12 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>8-Puzzle 最小步数求解</title>
-    <link rel="stylesheet" href="8puzzle.css"><!--rel is refer to relation,href is refer to hypertext reference-->
+    <link rel="stylesheet" href="8puzzle.css">
 </head>
 <body>
+    <!-- 新增：导航栏 -->
+    <nav class="navbar">
+        <ul class="nav-list">
+            <li><a href="#puzzle-app">8puzzle小游戏</a></li>
+            <li><a href="#background">算法背景</a></li>
+            <li><a href="#credits">致谢</a></li>
+        </ul>
+    </nav>
+
+    <!-- 游戏主区域 (保留原有ID以便兼容JS) -->
     <div id="puzzle-app">
-        <h1> 8-Puzzle 最小步数求解</h1>
+        <h1>8-Puzzle 最小步数求解</h1>
 
         <div id="game-board">
             <div class="tile" data-number="1">1</div>
@@ -27,5 +39,24 @@
         </div>
     </div>
 
+    <!-- 新增：算法背景区块 -->
+    <section id="background" class="content-section">
+        <h2>8-Puzzle 最小步数求解算法背景</h2>
+        <div class="text-content">
+            <p>这里将介绍 A* (A-Star) 算法或 BFS (广度优先搜索) 在解决八数码问题中的应用。</p>
+            <p>（你可以在这里补充具体的算法原理、启发式函数 Manhattan Distance 等内容）</p>
+        </div>
+    </section>
+
+    <!-- 新增：致谢区块 -->
+    <section id="credits" class="content-section">
+        <h2>致谢</h2>
+        <div class="text-content">
+            <p>感谢使用本程序。</p>
+            <p>开发人员：[你的名字]</p>
+        </div>
+    </section>
+
     <script src="8puzzle.js"></script>
 </body>
+</html>
