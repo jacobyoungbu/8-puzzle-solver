@@ -10,6 +10,7 @@ function initGame() {
     currentState = generateSolvableState();  
     moveCount = 0;
     document.getElementById('move-count').textContent = moveCount;
+    document.getElementById('min-moves').textContent = " "; 
     renderBoard();
     bindTileEvents();
 }
@@ -151,11 +152,11 @@ class Node {
 
 function getNeighbors(state){
     let neighbors = [];
-    let zeroIndex = state.index0f(0);
+    let zeroIndex = state.indexOf(0);
     let r = Math.floor(zeroIndex / 3);
     let c = zeroIndex % 3;
 
-    const direcition = [     //定义了一个对象数组，这种做法叫**“数据驱动控制”**。它的核心思想是：把经常变化的数据（方向坐标）从逻辑（移动代码）中抽离出来。
+    const directions = [     //定义了一个对象数组，这种做法叫**“数据驱动控制”**。它的核心思想是：把经常变化的数据（方向坐标）从逻辑（移动代码）中抽离出来。
         { dr: -1, dc: 0 },//up
         { dr: 1, dc: 0 },//down
         { dr: 0, dc: -1 },//left
@@ -229,6 +230,14 @@ document.getElementById('solve-btn').addEventListener('click', async () => {
         renderBoard();
         bindTileEvents();
     }
-   alert("求解完成！最小步数为：" + (path.length - 1));
+   
 })
 
+document.getElementById('hint-btn').addEventListener('click', () => {
+    document.getElementById('min-moves').textContent = "计算中...";
+    setTimeout(() => {
+        let path = solveAstar(); // 复用A* 算法
+        let minSteps = path.length - 1;
+        document.getElementById('min-moves').textContent = minSteps;
+    }, 10);
+});

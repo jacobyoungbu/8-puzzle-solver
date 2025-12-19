@@ -34,11 +34,14 @@
 
         <div id="controls">
             <p>当前步数: <span id="move-count">0</span></p>
-            <button id="new-game-btn">新游戏</button>
-            <button id="solve-btn">求解</button>
+            <p>理论最小步数：<span id="min-moves" style = " color:blueviolet; font-weight: bold;"></span></p>
+            <div class="button-group">
+                <button id="new-game-btn">新游戏</button>
+                <button id="solve-btn">求解演示</button>
+                <button id="hint-btn">显示理论最小步数</button>
+            </div>
         </div>
     </div>
-
     <!-- 新增：算法背景区块 -->
     <section id="background" class="content-section">
         <h2>8-Puzzle 最小步数求解算法背景</h2>
