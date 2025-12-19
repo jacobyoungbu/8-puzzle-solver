@@ -124,3 +124,28 @@ function swapDOMElements(tileA, tileB) {
 function checkWin() {
     return currentState.every((val, index) => val === FINAL_STATE[index]);}
 
+function getManhattanDistance(state) {
+    let totalDistance = 0;
+    for (let i = 0; i < state.length; i++) {
+        let value = state[i];
+        if (value !== 0) {
+            let currentX = i % 3;
+            let currentY = Math.floor(i / 3);
+            let targetX = (value - 1) % 3;
+            let targetY = Math.floor((value - 1)/3);
+            totalDistance += Math.abs(targetX - currentX) + Math.abs(targetY - currentY);
+        }
+    }
+    return totalDistance;
+}
+
+class Node {
+    constructor(state, parent = null, g = 0, h = 0){
+        this.state = state;
+        this.parent = parent;
+        this.g = g;
+        this.h = h;
+        this.f = h + g;
+    }
+}
+
