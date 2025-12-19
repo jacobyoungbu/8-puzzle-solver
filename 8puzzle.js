@@ -208,10 +208,27 @@ function solveAstar(){
     }
 }
 
+function reconstructPath(node){
+    let path = [];
+    let tempNode = node;
+    while (tempNode !== null){
+        path.push(tempNode.state);
+        tempNode = tempNode.parent;
+    }
+    return path.reverse();
+}
 
 
-
-
-
-
+document.getElementById('solve-btn').addEventListener('click', async () => {
+    let path = solveAstar();
+    for (let i = 0; i < path.length; i++){
+        await new Promise(resolve => setTimeout(resolve,300));//await 与 async搭配使用
+        currentState = path[i];
+        moveCount = i;
+        document.getElementById('move-count').textContent = moveCount;
+        renderBoard();
+        bindTileEvents();
+    }
+   alert("求解完成！最小步数为：" + (path.length - 1));
+})
 
