@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>8-Puzzle 极简版</title>
+    <title>8-Puzzle 最小步数求解</title>
     <link rel="stylesheet" href="8puzzle.css">
 </head>
 <body>
@@ -55,7 +55,7 @@
     <section id="problem-context" class="content-section">
         <h2>什么是 8-Puzzle？</h2>
         <div class="text-content">
-            <p><strong>8-Puzzle (八数码问题)</strong> 是一个古老而经典的滑块益智游戏。它由一个 3x3 的九宫格组成，其中包含 8 个标有数字的方块和一个空格。从某种意义上说，这可能是我接触的第一个游戏。记得在小时候，触屏手机刚出现的时候，手机出厂会自带一个图片拼图的游戏。该游戏将一个照片平均分成8个小方格并随机打乱，而你要做的正是通过滑动小方格复原这张图片。其实这就是一个8—puzzle。</p>
+            <p><strong>8-Puzzle (八数码问题)</strong> 是一个古老而经典的滑块益智游戏。它由一个 3x3 的九宫格组成，其中包含 8 个标有数字的方块和一个空格。从某种意义上说，这可能是我接触的第一个游戏。记得在小时候，触屏手机刚出现，手机出厂会自带一个图片拼图的游戏。该游戏将一个照片平均分成9个小方格,去掉一个后再随机打乱，玩家需要通过滑动小方格复原这张图片。其实这就是一个8—puzzle。</p>
             <br>
             <h3>历史起源</h3>
             <p>这个谜题最早由 Noyes Palmer Chapman 在 1870 年代发明，后来由谜题专家 Sam Loyd 推广。在 19 世纪末，它曾引发了类似于今天“魔方热”的全民狂潮。</p>
@@ -69,6 +69,8 @@
             <p>在本项目中，我们在生成新游戏时，会计算局面的逆序数。只有当逆序数为<strong>偶数</strong>时，拼图才是有解的。这也体现了计算机科学中<strong>“不可解问题”</strong>与<strong>“状态空间”</strong>的深刻原理。</p>
         </div>
     </section>
+
+    <!-- 算法之美区块 -->
     <section id="background" class="content-section">
         <h2>算法之美</h2>
         <div class="text-content">
@@ -78,26 +80,45 @@
             <p><strong>核心公式：f(n) = g(n) + h(n)</strong></p>
             <p>其中，g(n) 代表从起点到当前状态的实际代价，而 h(n) 则是当前状态到目标状态的预估代价。我们使用了 <em>曼哈顿距离 (Manhattan Distance)</em> 作为启发函数，确保了搜索的高效性与结果的准确性。</p>
             <p>值得注意的是，A*算法在每个节点都会贪心的选择评估函数最小的下一个节点，但A*算法并不会像贪心算法一样错过可能的最小路径。这是因为A*算法中 openList 和 closedList 的存在。A*算法虽然优先走当下最优的路径，但会把未走过的所有可能路径都记在openList中。如果发现当前路不好走，它能随时“瞬移”回之前的任何一个路口重新开始。</p>
-            <p>详细算法介绍可见</p><a href="https://www.geeksforgeeks.org/artificial-intelligence/8-puzzle-problem-in-ai/">geeksforgeeks.org/artificial-intelligence/8-puzzle-problem-in-ai/<a>
-
+            <p>详细算法介绍可见：</p>
+            <!-- 修复：闭合标签修正为 </a>，添加 target="_blank" -->
+            <a href="https://www.geeksforgeeks.org/artificial-intelligence/8-puzzle-problem-in-ai/" target="_blank">geeksforgeeks.org/artificial-intelligence/8-puzzle-problem-in-ai/</a>
         </div>
     </section>
+
+    
     <section id="computational-thinking" class="content-section">
         <h2>计算思维在 8-Puzzle 中的体现</h2>
         <div class="text-content">
             <h3>系统思维：抽象化与模块化</h3>
-            <p>在javascript中,将8puzzle最小步数求解的实现拆分成了 initGame,renderBoard,solveAstar,getNeighbors等函数。每个函数只负责一件事，体现了模块化。</p>    
-            <p>将8puzzle状态抽象成了包含state，parent，g，h，f，属性的对象，用class实现节点的自动生成</p>
+            <p>在 JavaScript 中, 我将 8puzzle 最小步数求解的实现拆分成了 <code>initGame</code>, <code>renderBoard</code>, <code>solveAstar</code>, <code>getNeighbors</code> 等函数。每个函数只负责一件事，体现了模块化。</p>    
+            <p>将 8puzzle 状态抽象成了包含 state，parent，g，h，f 属性的对象，用 class 实现节点的自动生成。</p>
             <br>
             <h3>算法思维：高德纳算法定义与贪心范式的优化</h3>
-            <p>虽说程序就是算法，但从写出算法到写出程序仍要克服许多问题：处理Node、openList、closedList的数据结构、Set函数的去重逻辑、曼哈顿距离的计算等。</p>
-            <p>A*算法结合了Dijkstra算法和贪心算法的优点，将h(n)与g(n)结合，在保持搜索方向性的同时保证了结果的最优性。</p>
-    <!-- 致谢区块 -->
+            <p>虽说程序就是算法，但从写出算法到写出程序仍要克服许多问题：处理 Node、openList、closedList 的数据结构、Set 函数的去重逻辑、曼哈顿距离的计算等。</p>
+            <p>A* 算法结合了 Dijkstra 算法和贪心算法的优点，将 h(n) 与 g(n) 结合，在保持搜索方向性的同时保证了结果的最优性。</p>
+        </div> 
+    </section> 
+
+    
+    <!-- 致谢区块：极简风 -->
     <section id="credits" class="content-section" style="background-color: #F5F5F7;">
         <h2>致谢</h2>
-        <div class="text-content" style="text-align: center;">
-            <p>Design by Apple Style Guide Inspiration.</p>
-            <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.6;">&copy; 2025 [你的名字]. All rights reserved.</p>
+        <div class="text-content" style="text-align: center; font-size: 0.9rem; color: #86868B;">
+            <p><strong>Design Inspiration</strong><br>
+            界面设计灵感来源于 Apple Human Interface Guidelines</p>
+            
+            <p style="margin-top: 15px;"><strong>Technical References</strong><br>
+            核心算法参考 GeeksforGeeks 与 抽象代数置换群理论</p>
+
+            <p style="margin-top: 15px;"><strong>Tools Used</strong><br>
+            CSS interface optimized by Gemini.<br>JavaScript code framework provided by Gemini.</p>
+
+            <div style="margin-top: 30px; border-top: 1px solid #d2d2d7; padding-top: 15px;">
+                <p>&copy; 2025 [Jacob Young]. All rights reserved. 
+                <a href="https://github.com/[你的GithubID]" target="_blank" style="margin-left: 10px; color: #0071E3;">View on GitHub</a>
+                </p>
+            </div>
         </div>
     </section>
 
