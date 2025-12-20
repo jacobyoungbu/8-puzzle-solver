@@ -11,6 +11,7 @@
     <nav class="navbar">
         <ul class="nav-list">
             <li><a href="#puzzle-app">游戏</a></li>
+            <li><a href="#problem-context">问题背景</a></li> 
             <li><a href="#background">算法原理</a></li>
             <li><a href="#credits">致谢</a></li>
         </ul>
@@ -50,14 +51,36 @@
     </div>
 
     <!-- 算法背景区块 -->
+    <section id="problem-context" class="content-section">
+        <h2>什么是 8-Puzzle？</h2>
+        <div class="text-content">
+            <p><strong>8-Puzzle (八数码问题)</strong> 是一个古老而经典的滑块益智游戏。它由一个 3x3 的九宫格组成，其中包含 8 个标有数字的方块和一个空格。从某种意义上说，这可能是我接触的第一个游戏。记得在小时候，触屏手机刚出现的时候，手机出厂会自带一个图片拼图的游戏。该游戏将一个照片平均分成8个小方格并随机打乱，而你要做的正是通过滑动小方格复原这张图片。其实这就是一个8—puzzle。</p>
+            <br>
+            <h3>历史起源</h3>
+            <p>这个谜题最早由 Noyes Palmer Chapman 在 1870 年代发明，后来由谜题专家 Sam Loyd 推广。在 19 世纪末，它曾引发了类似于今天“魔方热”的全民狂潮。</p>
+            <br>
+            <h3>8 puzzle problem 在当代的重要性</h3>
+            <p>八数码问题是人工智能领域研究搜索算法、启发式优化和问题求解的重要基准问题。虽然广度优先搜索（BFS）和深度优先搜索（DFS）等算法可以解决这个问题，但A*搜索结合曼哈顿距离等有效启发式方法，能够更高效地找到最优解。理解八数码问题能够为解决人工智能领域更复杂的组合问题（例如十五数码问题）以及机器人和游戏等实际应用奠定基础。</p>
+            <br>
+            <h3>数学与不可解性</h3>
+            <p>有趣的是，在8 puzzle problem中，只有50%的情况是可解的。 </p>
+            <p>这涉及到了抽象代数中的置换群理论。基于群论的奇偶性守恒，8-Puzzle 的状态空间被分割为两个互不相通的集合，只有与目标状态同属偶置换集合，即逆序数奇偶性校验一致。这样的初始状态才是可解的。</p>
+            <p>在本项目中，我们在生成新游戏时，会计算局面的逆序数。只有当逆序数为<strong>偶数</strong>时，拼图才是有解的。这也体现了计算机科学中<strong>“不可解问题”</strong>与<strong>“状态空间”</strong>的深刻原理。</p>
+        </div>
+    </section>
     <section id="background" class="content-section">
         <h2>算法之美</h2>
         <div class="text-content">
-            <p>本程序采用 <strong>A* (A-Star) 搜索算法</strong> 寻找八数码问题的最优解。A* 算法结合了 Dijkstra 算法的广度优先特性与贪婪算法的启发式特性。</p>
+            <p>本程序采用 <strong>A* (A-Star) 搜索算法</strong> 寻找八数码问题的最优解。</p>
+            <p>A*算法是一种启发式搜索算法，它结合了广度优先搜索（BFS）和深度优先搜索（DFS）的特点，使用优先级队列，由评估函数 f(n) 主导，优先探索最有希望的状态。</p>
             <br>
             <p><strong>核心公式：f(n) = g(n) + h(n)</strong></p>
             <p>其中，g(n) 代表从起点到当前状态的实际代价，而 h(n) 则是当前状态到目标状态的预估代价。我们使用了 <em>曼哈顿距离 (Manhattan Distance)</em> 作为启发函数，确保了搜索的高效性与结果的准确性。</p>
+            <p>值得注意的是，A*算法在每个节点都会贪心的选择评估函数最小的下一个节点，但A*算法并不会像贪心算法一样错过可能的最小路径。这是因为A*算法中 openList 和 closedList 的存在。A*算法虽然优先走当下最优的路径，但会把未走过的所有可能路径都记在openList中。如果发现当前路不好走，它能随时“瞬移”回之前的任何一个路口重新开始。</p>
+            <p>详细算法介绍可见</p><a href="https://www.geeksforgeeks.org/artificial-intelligence/8-puzzle-problem-in-ai/">geeksforgeeks.org/artificial-intelligence/8-puzzle-problem-in-ai/<a>
+        
         </div>
+
     </section>
 
     <!-- 致谢区块 -->

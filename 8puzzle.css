@@ -199,3 +199,11 @@ button:hover {
 #min-moves {
     color: var(--accent-color) !important; /* 强制使用主题蓝 */
 }
+
+a {
+    color: var(--accent-color); /* 使用你的主题蓝 (#0071E3) */
+    text-decoration: none;      /* 去掉丑陋的下划线 */
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
