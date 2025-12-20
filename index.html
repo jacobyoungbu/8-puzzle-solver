@@ -13,6 +13,7 @@
             <li><a href="#puzzle-app">游戏</a></li>
             <li><a href="#problem-context">问题背景</a></li> 
             <li><a href="#background">算法原理</a></li>
+            <li><a href="#computational-thinking">计算思维</a></li>
             <li><a href="#credits">致谢</a></li>
         </ul>
     </nav>
@@ -78,11 +79,19 @@
             <p>其中，g(n) 代表从起点到当前状态的实际代价，而 h(n) 则是当前状态到目标状态的预估代价。我们使用了 <em>曼哈顿距离 (Manhattan Distance)</em> 作为启发函数，确保了搜索的高效性与结果的准确性。</p>
             <p>值得注意的是，A*算法在每个节点都会贪心的选择评估函数最小的下一个节点，但A*算法并不会像贪心算法一样错过可能的最小路径。这是因为A*算法中 openList 和 closedList 的存在。A*算法虽然优先走当下最优的路径，但会把未走过的所有可能路径都记在openList中。如果发现当前路不好走，它能随时“瞬移”回之前的任何一个路口重新开始。</p>
             <p>详细算法介绍可见</p><a href="https://www.geeksforgeeks.org/artificial-intelligence/8-puzzle-problem-in-ai/">geeksforgeeks.org/artificial-intelligence/8-puzzle-problem-in-ai/<a>
-        
+
         </div>
-
     </section>
-
+    <section id="computational-thinking" class="content-section">
+        <h2>计算思维在 8-Puzzle 中的体现</h2>
+        <div class="text-content">
+            <h3>系统思维：抽象化与模块化</h3>
+            <p>在javascript中,将8puzzle最小步数求解的实现拆分成了 initGame,renderBoard,solveAstar,getNeighbors等函数。每个函数只负责一件事，体现了模块化。</p>    
+            <p>将8puzzle状态抽象成了包含state，parent，g，h，f，属性的对象，用class实现节点的自动生成</p>
+            <br>
+            <h3>算法思维：高德纳算法定义与贪心范式的优化</h3>
+            <p>虽说程序就是算法，但从写出算法到写出程序仍要克服许多问题：处理Node、openList、closedList的数据结构、Set函数的去重逻辑、曼哈顿距离的计算等。</p>
+            <p>A*算法结合了Dijkstra算法和贪心算法的优点，将h(n)与g(n)结合，在保持搜索方向性的同时保证了结果的最优性。</p>
     <!-- 致谢区块 -->
     <section id="credits" class="content-section" style="background-color: #F5F5F7;">
         <h2>致谢</h2>
