@@ -1,12 +1,14 @@
 // 全局变量
 const BOARD_SIZE = 3;
-const TILE_COUNT = BOARD_SIZE * BOARD_SIZE; // 9
-const FINAL_STATE = [1, 2, 3, 4, 5, 6, 7, 8, 0]; // 目标状态
+const TILE_COUNT = BOARD_SIZE * BOARD_SIZE; 
+const FINAL_STATE = [1, 2, 3, 4, 5, 6, 7, 8, 0]; 
 const gameBoard = document.getElementById('game-board');
 let currentState = []; 
 let moveCount = 0;
+let isAutoSolving = false; 
 
 function initGame() {
+    isAutoSolving = false; 
     currentState = generateSolvableState();  
     moveCount = 0;
     document.getElementById('move-count').textContent = moveCount;
@@ -32,7 +34,7 @@ function generateSolvableState(){
     
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));//Math.random() 生成 [0,1) 之间的数 floor 向下取整
+                const j = Math.floor(Math.random() * (i + 1));
                 [array[i], array[j]] = [array[j], array[i]];
             }
         }
@@ -47,6 +49,7 @@ function generateSolvableState(){
         }
 
     }
+
 //重置DOM
 function renderBoard() {
     gameBoard.innerHTML = ''; // 清空现有内容
@@ -75,10 +78,11 @@ document.getElementById('new-game-btn').addEventListener('click', initGame);
 
 
 function bindTileEvents() {
-    // 重新查询 DOM，因为 renderBoard() 重新创建了元素
+    if (isAutoSolving) return;
+
     let tiles = document.querySelectorAll('.tile'); 
     tiles.forEach(tile => {
-        if (!tile.classList.contains('empty')) { // 空格不需监听点击
+        if (!tile.classList.contains('empty')) { 
             tile.addEventListener('click', handleTileClick);
         }
     });
@@ -86,6 +90,8 @@ function bindTileEvents() {
 
 
 function handleTileClick(event) {
+    if (isAutoSolving) return;
+
     const clickedTile = event.currentTarget;
     const tileNumber = parseInt(clickedTile.getAttribute('data-number'));
     const emptyTile = document.querySelector('.empty');
@@ -156,7 +162,7 @@ function getNeighbors(state){
     let r = Math.floor(zeroIndex / 3);
     let c = zeroIndex % 3;
 
-    const directions = [     //定义了一个对象数组，这种做法叫**“数据驱动控制”**。它的核心思想是：把经常变化的数据（方向坐标）从逻辑（移动代码）中抽离出来。
+    const directions = [     
         { dr: -1, dc: 0 },//up
         { dr: 1, dc: 0 },//down
         { dr: 0, dc: -1 },//left
@@ -169,7 +175,7 @@ function getNeighbors(state){
 
         if(newR >= 0 && newR < 3 && newC >= 0 && newC < 3){
             let newIndex = newR * 3 + newC;
-            let newState = [...state]; //克隆数组(...is spread operator)
+            let newState = [...state]; 
             [newState[zeroIndex], newState[newIndex]] = [newState[newIndex], newState[zeroIndex]]
             neighbors.push(newState);
         }
@@ -180,7 +186,7 @@ function getNeighbors(state){
 
 function solveAstar(){
     let openList = [];
-    let closedList = new Set();//Set（）为集合数据结构。不重复：同一个东西，无论你存多少次，它只会保留一份。快速查找：它专门优化了“查找”速度。判断一个东西在不在 Set 里，比在 Array 里快得多。
+    let closedList = new Set();
     let h = getManhattanDistance(currentState); 
     let startNode = new Node(currentState, null, 0, h);
     openList.push(startNode);
@@ -219,24 +225,38 @@ function reconstructPath(node){
     return path.reverse();
 }
 
-
 document.getElementById('solve-btn').addEventListener('click', async () => {
+    if (isAutoSolving) return; // 防止重复点击
+
     let path = solveAstar();
+    if (!path) return;
+
+    isAutoSolving = true; // 标记开始演示
+
     for (let i = 0; i < path.length; i++){
-        await new Promise(resolve => setTimeout(resolve,300));//await 与 async搭配使用
+        if (!isAutoSolving) break; 
+
+        await new Promise(resolve => setTimeout(resolve,300));
+
+        if (!isAutoSolving) break; 
+
         currentState = path[i];
         moveCount = i;
         document.getElementById('move-count').textContent = moveCount;
         renderBoard();
-        bindTileEvents();
+        
     }
-   
+    
+    if (isAutoSolving) {
+        bindTileEvents();
+        isAutoSolving = false; 
+    }
 })
 
 document.getElementById('hint-btn').addEventListener('click', () => {
     document.getElementById('min-moves').textContent = "计算中...";
     setTimeout(() => {
-        let path = solveAstar(); // 复用A* 算法
+        let path = solveAstar(); 
         let minSteps = path.length - 1;
         document.getElementById('min-moves').textContent = minSteps;
     }, 10);

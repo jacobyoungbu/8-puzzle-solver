@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="8puzzle.css">
 </head>
 <body>
-    <!-- 导航栏 -->
     <nav class="navbar">
         <ul class="nav-list">
             <li><a href="#puzzle-app">游戏</a></li>
@@ -18,12 +17,10 @@
         </ul>
     </nav>
 
-    <!-- 游戏主区域 -->
     <div id="puzzle-app">
         <h1>8-Puzzle</h1>
 
         <div id="game-board">
-            <!-- JS 会在这里生成方块 -->
             <div class="tile" data-number="1">1</div>
             <div class="tile" data-number="2">2</div>
             <div class="tile" data-number="3">3</div>
@@ -36,13 +33,11 @@
         </div>
 
         <div id="controls">
-            <!-- 统计信息 -->
             <div class="stats">
                 <p>当前步数 <span id="move-count">0</span></p>
                 <p>理论最少 <span id="min-moves">?</span></p>
             </div>
 
-            <!-- 按钮组 -->
             <div class="button-group">
                 <button id="new-game-btn">重新开始</button>
                 <button id="hint-btn">计算最优解</button>
@@ -51,7 +46,6 @@
         </div>
     </div>
 
-    <!-- 算法背景区块 -->
     <section id="problem-context" class="content-section">
         <h2>什么是 8-Puzzle？</h2>
         <div class="text-content">
@@ -70,7 +64,6 @@
         </div>
     </section>
 
-    <!-- 算法之美区块 -->
     <section id="background" class="content-section">
         <h2>算法之美</h2>
         <div class="text-content">
@@ -86,7 +79,6 @@
         </div>
     </section>
 
-    
     <section id="computational-thinking" class="content-section">
         <h2>计算思维在 8-Puzzle 中的体现</h2>
         <div class="text-content">
@@ -101,7 +93,6 @@
     </section> 
 
     
-    <!-- 致谢区块：极简风 -->
     <section id="credits" class="content-section" style="background-color: #F5F5F7;">
         <h2>致谢</h2>
         <div class="text-content" style="text-align: center; font-size: 0.9rem; color: #86868B;">
