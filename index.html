@@ -80,22 +80,92 @@
     </section>
 
     <section id="computational-thinking" class="content-section">
-        <h2>计算思维在 8-Puzzle 中的体现</h2>
+        <h2>计算思维：重构高德纳的经典定义</h2>
         <div class="text-content">
-            <h3>系统思维：抽象化与模块化</h3>
-            <p>在 JavaScript 中, 我将 8puzzle 最小步数求解的实现拆分成了 <code>initGame</code>, <code>renderBoard</code>, <code>solveAstar</code>, <code>getNeighbors</code> 等函数。每个函数只负责一件事，体现了模块化。</p>    
-            <p>将 8puzzle 状态抽象成了包含 state，parent，g，h，f 属性的对象，用 class 实现节点的自动生成。</p>
-            <br>
-            <h3>算法思维：高德纳算法定义与贪心范式的优化</h3>
-            <p>虽说程序就是算法，但从写出算法到写出程序仍要克服许多问题：处理 Node、openList、closedList 的数据结构、Set 函数的去重逻辑、曼哈顿距离的计算等。</p>
-            <p>A* 算法结合了 Dijkstra 算法和贪心算法的优点，将 h(n) 与 g(n) 结合，在保持搜索方向性的同时保证了结果的最优性。</p>
+            <p>计算机科学泰斗高德纳（Donald Knuth）在《计算机程序设计艺术》中提出了算法的五个核心特征。本项目中的 A* 算法实现，正是对这五大特征的完美演绎：</p>
+            
+            <div class="feature-list" style="margin-top: 30px;">
+                
+                <h3>有穷性 (Finiteness)</h3>
+                <p><strong>理论：</strong>算法必须在有限步骤内结束。<br>
+                <strong>实现：</strong>在 8-Puzzle 的状态空间图中，存在大量的环路（重复局面）。代码中引入了 <code>closedList</code>（基于 <code>Set</code> 数据结构），记录所有已访问的状态哈希值。这确保了算法绝不会在死循环中空转，配合有限的状态总数（9!/2），保证程序必然会在有限步内找到解或判定无解。</p>
+
+                <h3>确定性 (Definiteness)</h3>
+                <p><strong>理论：</strong>每一步骤必须有确切定义，无二义性。<br>
+                <strong>实现：</strong>我们的启发式函数 <code>f(n) = g(n) + h(n)</code> 是绝对确定的。其中 <code>h(n)</code> 采用<strong>曼哈顿距离</strong>公式计算，对于任意给定的方块位置，其与目标位置的距离计算是唯一的。代码逻辑中没有随机猜测，每一步状态转移都由数学逻辑严格主导。</p>
+
+                <h3>输入 (Input)</h3>
+                <p><strong>理论：</strong>算法具有零个或多个输入。<br>
+                <strong>实现：</strong>算法的输入是 <code>currentState</code> 数组（例如 <code>[1, 8, 2, 0, 4, 3, 7, 6, 5]</code>），它代表了棋盘的初始排列。我们在生成输入时还引入了<strong>逆序数校验</strong>，确保输入属于“可解”的数学集合。</p>
+
+                <h3>输出 (Output)</h3>
+                <p><strong>理论：</strong>算法有一个或多个与输入相关的输出。<br>
+                <strong>实现：</strong>函数的输出是由 <code>reconstructPath</code> 方法生成的路径数组。它不仅仅是一个结果，而是一系列有序的操作序列，能将初始混乱的状态一步步还原为 <code>FINAL_STATE</code>。</p>
+
+                <h3>可行性 (Effectiveness)</h3>
+                <p><strong>理论：</strong>操作必须足够基础，原则上可用纸笔完成。<br>
+                <strong>实现：</strong>尽管 A* 算法逻辑精妙，但其底层操作——数组元素的交换、整数的加法（计算步数）、绝对值的计算（曼哈顿距离）——都是最基础的算术与逻辑运算。计算机的高效仅在于它能以极快的速度执行这些基础操作。</p>
+            </div>
+            <!-- 分割线，用于视觉区分 -->
+            <hr style="border: 0; border-top: 1px solid #eaeaea; margin: 40px 0;">
+
+            <h3>贪心范式的优化：从“短视”到“全局”</h3>
+            <p>在算法设计中，<strong>贪心算法 (Greedy Algorithm)</strong> 是一种直觉式的策略：每一步都选择当前看起来最好的路径。在 8-Puzzle 问题中，纯粹的贪心策略会只关注启发值 h(n)（当前状态距离目标的预估距离），即“哪一步离目标更近就走哪一步”。</p>
+            
+            <p>然而，这种“短视”的策略往往会陷入<strong>局部最优 (Local Optima)</strong> 的陷阱，或者虽然找到了解，但走了一条绕远路的弯路。</p>
+            
+            <div style="background-color: #F5F5F7; padding: 20px; border-radius: 12px; margin-top: 20px;">
+                <h4 style="margin-top: 0; color: var(--text-primary); font-size: 1.1rem;">A* 算法的修正哲学</h4>
+                <p style="font-size: 0.95rem; margin-bottom: 15px;">本程序所使用的 A* 算法，通过引入<strong>历史代价 g(n)</strong> 对贪心范式进行了极其优雅的修正。其核心公式体现了计算思维中的<strong>“权衡 (Trade-off)”</strong>艺术：</p>
+                
+                <p style="font-family: 'SF Mono', monospace; color: var(--accent-color); font-weight: 600; text-align: center; margin: 20px 0; font-size: 1.2rem;">
+                    f(n) = g(n) + h(n)
+                </p>
+
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: var(--accent-color);">•</span>
+                        <strong>g(n) (历史):</strong> 从起点走到当前位置已经花费的步数。它代表了“沉没成本”，提醒算法不要为了一个看起来很近的目标，而忽略了我们已经绕了多远的路。
+                    </li>
+                    <li style="padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: var(--accent-color);">•</span>
+                        <strong>h(n) (未来):</strong> 距离目标的预估代价（曼哈顿距离）。它保留了贪心算法的“方向感”，引导搜索快速逼近目标。
+                    </li>
+                </ul>
+            </div>
+
+            <p style="margin-top: 20px;">
+                正是因为引入了 g(n)，A* 算法拥有了<strong>可采纳性 (Admissibility)</strong>。这意味着，只要启发函数 h(n) 不高估实际距离（曼哈顿距离满足此条件），A* 算法就<strong>保证</strong>：一旦找到解，那一定是数学上的最短路径解。这是纯粹的贪心算法无法做到的。
+            </p>
+            <p style="margin-top: 40px; border-top: 1px solid #eaeaea; padding-top: 20px; font-style: italic;">
+                "程序设计是艺术，因为它是将复杂的逻辑之美，构建在简单的基础指令之上。"
+            </p>
         </div> 
-    </section> 
+    </section>
 
     
     <section id="credits" class="content-section" style="background-color: #F5F5F7;">
         <h2>致谢</h2>
+        
         <div class="text-content" style="text-align: center; font-size: 0.9rem; color: #86868B;">
+            <!-- 核心致谢：CS导论团队 -->
+            <p><strong>Special Thanks</strong><br>
+            <div style="margin-bottom: 40px;">
+                <p style="font-size: 1.1rem; color: var(--text-primary); font-weight: 600; margin-bottom: 5px;">
+                    大湾区大学计算机科学导论教学团队
+                </p>
+                <a href="https://www.gbu.edu.cn/menu/182" target="_blank" style="font-size: 0.9rem; color: var(--accent-color); font-weight: 500; margin-bottom: 15px; letter-spacing: 0.02em;">
+                    Introduction to Computer Science Teaching Team
+                </a>
+                <p style="font-size: 0.95rem; line-height: 1.8; color: var(--text-secondary);">
+                    感谢老师们赋予我计算思维的视角<br>本项目灵感来源于课程中用分治范式解决汉诺塔问题相关内容 <br>本项目的核心逻辑———从问题抽象到A*算法实现，都源于计科导课程的理论滋养<br>
+                    从图灵机到网络思维,我在这学期的计科导课程中收获颇丰<br>
+                    再次感谢徐志伟老师精心的课程设计、郑旭彬老师细致的教导
+                </p>
+            </div>
+
+            <!-- 极简分割线 -->
+            <div style="width: 30px; height: 2px; background-color: #d2d2d7; margin: 0 auto 40px; border-radius: 2px;"></div>
             <p><strong>Design Inspiration</strong><br>
             界面设计灵感来源于 Apple Human Interface Guidelines</p>
             
