@@ -74,7 +74,7 @@
             <p>其中，g(n) 代表从起点到当前状态的实际代价，而 h(n) 则是当前状态到目标状态的预估代价。我们使用了 <em>曼哈顿距离 (Manhattan Distance)</em> 作为启发函数，确保了搜索的高效性与结果的准确性。</p>
             <p>值得注意的是，A*算法在每个节点都会贪心的选择评估函数最小的下一个节点，但A*算法并不会像贪心算法一样错过可能的最小路径。这是因为A*算法中 openList 和 closedList 的存在。A*算法虽然优先走当下最优的路径，但会把未走过的所有可能路径都记在openList中。如果发现当前路不好走，它能随时“瞬移”回之前的任何一个路口重新开始。</p>
             <p>详细算法介绍可见：</p>
-            <!-- 修复：闭合标签修正为 </a>，添加 target="_blank" -->
+            
             <a href="https://www.geeksforgeeks.org/artificial-intelligence/8-puzzle-problem-in-ai/" target="_blank">geeksforgeeks.org/artificial-intelligence/8-puzzle-problem-in-ai/</a>
         </div>
     </section>
@@ -106,7 +106,7 @@
                 <p><strong>理论：</strong>操作必须足够基础，原则上可用纸笔完成。<br>
                 <strong>实现：</strong>尽管 A* 算法逻辑精妙，但其底层操作——数组元素的交换、整数的加法（计算步数）、绝对值的计算（曼哈顿距离）——都是最基础的算术与逻辑运算。计算机的高效仅在于它能以极快的速度执行这些基础操作。</p>
             </div>
-            <!-- 分割线，用于视觉区分 -->
+        
             <hr style="border: 0; border-top: 1px solid #eaeaea; margin: 40px 0;">
 
             <h3>贪心范式的优化：从“短视”到“全局”</h3>
@@ -148,7 +148,7 @@
         <h2>致谢</h2>
         
         <div class="text-content" style="text-align: center; font-size: 0.9rem; color: #86868B;">
-            <!-- 核心致谢：CS导论团队 -->
+            
             <p><strong>Special Thanks</strong><br>
             <div style="margin-bottom: 40px;">
                 <p style="font-size: 1.1rem; color: var(--text-primary); font-weight: 600; margin-bottom: 5px;">
@@ -164,7 +164,6 @@
                 </p>
             </div>
 
-            <!-- 极简分割线 -->
             <div style="width: 30px; height: 2px; background-color: #d2d2d7; margin: 0 auto 40px; border-radius: 2px;"></div>
             <p><strong>Design Inspiration</strong><br>
             界面设计灵感来源于 Apple Human Interface Guidelines</p>
