@@ -3,7 +3,7 @@
 [![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://jacobyoung-edu.github.io/8-puzzle-solver/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> 这是我大一学期的期末项目：一个基于 Web 的八数码益智游戏求解器。它不仅可以手动游玩，还能通过智能算法自动寻找最优解。
+> 这是我大一学期CS101的期末项目：一个基于 Web 的八数码益智游戏求解器。它不仅可以手动游玩，还能通过智能算法自动寻找最优解。
 
 ## 🌟 项目亮点
 - **可视化演示**：实时展示算法搜索过程及每一步推算。
